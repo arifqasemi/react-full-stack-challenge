@@ -7,10 +7,9 @@ function UseUpdate() {
     try {
       const response = await fetch(`http://127.0.0.1:8000/currencies/update/${newData.id}`, {
         method: 'POST',
-        // Headers should not include 'Access-Control-Allow-Origin'
         headers: {
           'Content-Type': 'application/json',
-          // Add other headers as needed
+          'Authorization': `Token ${newData.token}`,
         },
         body:JSON.stringify({
             base:newData.base,

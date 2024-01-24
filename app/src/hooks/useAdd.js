@@ -10,6 +10,7 @@ function UseAdd() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Token ${newData.token}`,
         },
         body:JSON.stringify({
             base:newData.base,

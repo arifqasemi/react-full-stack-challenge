@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
 
-function UseDelete() {
-    const [result, setResult] = useState([]);
+function UseLogin() {
+    const [data, setData] = useState([]);
 
-    async function deleteData(data) {
+    async function login(userData) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/currencies/delete/${data.id}`, {
-          method: 'DELETE',
+        const response = await fetch('http://127.0.0.1:8000/authentication/login/', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Token ${data.token}`,
           },
-        
+          body:JSON.stringify({
+             username:userData.username,
+             password:userData.password
+  
+          })
         });
   
         if (!response.ok) {
@@ -20,14 +23,14 @@ function UseDelete() {
         }
   
         const jsonData = await response.json();
-        setResult(jsonData);
+        setData(jsonData);
         console.log(jsonData);
       } catch (error) {
         console.error('An error occurred while fetching data:', error.message);
       }
     }
   
-    return { result, deleteData };
+    return { data, login };
 }
 
-export default UseDelete
+export default UseLogin

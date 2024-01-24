@@ -15,7 +15,9 @@ function Create({setShowCreate}) {
     }
 
     const submitHandler = async()=>{
-      await addData({base:editedData.base,counter:editedData.counter,rate:editedData.rate})
+      const token = localStorage.getItem('token')
+
+      await addData({base:editedData.base,counter:editedData.counter,rate:editedData.rate,token:token})
      window.location.reload()
     }
   return (

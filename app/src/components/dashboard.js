@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../App.css';
 import { Card, Table, Button, Modal, Form } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
 
 import UseFetch from '../hooks/useFetch';
 import UseUpdate from '../hooks/useUpdate';
@@ -13,7 +14,7 @@ function Dashboard() {
     const [selectedItem, setSelectedItem] = useState(null);
     const [editedData, setEditedData] = useState({ base: '', counter: '', rate: '' });
     const [showCreate,setShowCreate] = useState(false)
-    const {data,getData} = UseFetch()
+    const {data,getData,error} = UseFetch()
     const {updatedData,updateData}  = UseUpdate()
     const {result,deleteData} = UseDelete()
     useEffect(() => {
@@ -35,21 +36,27 @@ function Dashboard() {
 
 
       const handleSaveChanges =async () => {
-        
+        const token = localStorage.getItem('token')
+
         setShowEditModal(false);
-       await  updateData({id:selectedItem.id,base:editedData.base,counter:editedData.counter,rate:editedData.rate})
+       await  updateData({id:selectedItem.id,base:editedData.base,counter:editedData.counter,rate:editedData.rate,token:token})
         getData()
     };
 
 
     const removeData = async(id)=>{
-        await  deleteData(id)
+        const token = localStorage.getItem('token')
+        await  deleteData({id:id,token:token})
        await getData()
     }
+
+
+    
     return (
         <div className='container mt-5'>
         <Card border="primary" style={{ width: '60rem' }}>
-                <Card.Header>Exchange Rate<button className='btn btn-primary btn-sm mx-2' onClick={(preState)=> setShowCreate(!showCreate)}>Add Currency</button></Card.Header>
+                <Card.Header>Exchange Rate{error =="" ? <button className='btn btn-primary btn-sm mx-2' onClick={(preState)=> setShowCreate(!showCreate)}>Add Currency</button> :''}{error =="Unauthorized" ? <a href='/login'>you need to login, to be able to CRUD</a> : ''}</Card.Header>
+                  
                 <Card.Body>
                 <Table striped bordered hover variant="dark">
                   <thead>
