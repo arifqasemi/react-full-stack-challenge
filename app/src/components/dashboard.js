@@ -3,14 +3,19 @@ import '../App.css';
 import { Card, Table, Button, Modal, Form } from 'react-bootstrap';
 
 import UseFetch from '../hooks/useFetch';
+import UseUpdate from '../hooks/useUpdate';
+import Create from './create';
+import UseDelete from '../hooks/useDelete';
 
 
 function Dashboard() {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [editedData, setEditedData] = useState({ base: '', counter: '', rate: '' });
-
+    const [showCreate,setShowCreate] = useState(false)
     const {data,getData} = UseFetch()
+    const {updatedData,updateData}  = UseUpdate()
+    const {result,deleteData} = UseDelete()
     useEffect(() => {
         if (data.length === 0) {
           const fetchData = async () => {
@@ -29,17 +34,22 @@ function Dashboard() {
       };
 
 
-      const handleSaveChanges = () => {
-        console.log(selectedItem)
-     
-      
+      const handleSaveChanges =async () => {
+        
         setShowEditModal(false);
-      };
+       await  updateData({id:selectedItem.id,base:editedData.base,counter:editedData.counter,rate:editedData.rate})
+        getData()
+    };
 
+
+    const removeData = async(id)=>{
+        await  deleteData(id)
+       await getData()
+    }
     return (
         <div className='container mt-5'>
         <Card border="primary" style={{ width: '60rem' }}>
-                <Card.Header>Exchange Rate</Card.Header>
+                <Card.Header>Exchange Rate<button className='btn btn-primary btn-sm mx-2' onClick={(preState)=> setShowCreate(!showCreate)}>Add Currency</button></Card.Header>
                 <Card.Body>
                 <Table striped bordered hover variant="dark">
                   <thead>
@@ -58,7 +68,7 @@ function Dashboard() {
                       <td>{item.base}</td>
                       <td>{item.counter}</td>
                       <td>{item.rate}</td>
-                      <td><button className='btn btn-danger btn-sm' >Delete</button><button className='btn btn-primary btn-sm mx-2' onClick={() => handleEditClick(item)}>Edit</button></td>
+                      <td><button className='btn btn-danger btn-sm' onClick={()=> removeData(item.id)}>Delete</button><button className='btn btn-primary btn-sm mx-2' onClick={() => handleEditClick(item)}>Edit</button></td>
                     </tr>
                     )}
                    
@@ -116,7 +126,8 @@ function Dashboard() {
           </Button>
         </Modal.Footer>
       </Modal>
-               
+
+        {showCreate && <Create setShowCreate={setShowCreate}/>}
           </div>
           );
 }
