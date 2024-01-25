@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [userData, setUserData] = useState({ username: '', password: ''});
+  const [error,setError] = useState([])
   const navigate = useNavigate()
 
   const {data,login} = UseLogin()
@@ -27,8 +28,15 @@ useEffect(() => {
 
 
   const submitHandler = async()=>{
-    login({username:userData.username,password:userData.password})
+    if(userData.username !=='' && userData.password !==''){
+      login({username:userData.username,password:userData.password})
+    }else{
+      setError('please fill all the inputs')
+      
+    }
+    
   }
+
 
   return (
     <div className='container mt-5'>
@@ -36,8 +44,10 @@ useEffect(() => {
   
     <Card.Body>
     <Card.Title>User Login Form</Card.Title>
-    {/* {data !== null ? <Alert key='danger' variant={data == '' ? '' : 'danger'}>{data}</Alert> : null} */}
-    <Form>
+    {error && error.length > 0 ? <Alert key='danger' variant='danger'>{error}</Alert> : null}   
+    {data && data.length > 0 ? <Alert key='danger' variant='danger'>{data}</Alert> : null} 
+
+   <Form>
             <Form.Group controlId="formusername">
               <Form.Label>Username</Form.Label>
               <Form.Control

@@ -19,6 +19,7 @@ function UseLogin() {
   
         if (!response.ok) {
           console.error('Failed to fetch data. Server responded with:', response.statusText);
+         console.log(response)
           return;
         }
   
