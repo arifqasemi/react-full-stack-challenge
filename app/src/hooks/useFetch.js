@@ -5,15 +5,20 @@ function UseFetch() {
   const [error,setError] = useState([])
 
   async function getData() {
-    const token = localStorage.getItem('token')
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/currencies/add/', {
-        method: 'GET',
+      const token = localStorage.getItem('token')
+
+      const response = await fetch('https://pythonapi.arifsultani291.digital/currencies/currencies/', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`,
+       
         },
+        body:JSON.stringify({
+          token:token
+        })
+
       });
 
       if (!response.ok) {

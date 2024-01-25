@@ -5,16 +5,17 @@ function UseUpdate() {
 
   async function updateData(newData) {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/currencies/update/${newData.id}`, {
+      const response = await fetch(`https://pythonapi.arifsultani291.digital/currencies/update/${newData.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Token ${newData.token}`,
+          // 'Authorization': `Token ${newData.token}`,
         },
         body:JSON.stringify({
             base:newData.base,
             counter:newData.counter,
-            rate:newData.rate
+            rate:newData.rate,
+            token:newData.token
 
         })
       });

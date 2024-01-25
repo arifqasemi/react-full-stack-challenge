@@ -43,7 +43,6 @@ function Dashboard() {
         getData()
     };
 
-
     const removeData = async(id)=>{
         const token = localStorage.getItem('token')
         await  deleteData({id:id,token:token})
@@ -55,7 +54,8 @@ function Dashboard() {
     return (
         <div className='container mt-5'>
         <Card border="primary" style={{ width: '60rem' }}>
-                <Card.Header>Exchange Rate{error =="" ? <button className='btn btn-primary btn-sm mx-2' onClick={(preState)=> setShowCreate(!showCreate)}>Add Currency</button> :''}{error =="Unauthorized" ? <a href='/login'>you need to login, to be able to CRUD</a> : ''}</Card.Header>
+        
+                <Card.Header>Exchange Rate  {error =="" ? <button className='btn btn-primary btn-sm mx-2' onClick={(preState)=> setShowCreate(!showCreate)}>Add Currency</button> :<a href='/login'>you need to login, to be able to CRUD</a>}</Card.Header>
                   
                 <Card.Body>
                 <Table striped bordered hover variant="dark">

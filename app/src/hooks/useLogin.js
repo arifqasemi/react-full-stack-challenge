@@ -5,7 +5,7 @@ function UseLogin() {
 
     async function login(userData) {
       try {
-        const response = await fetch('http://127.0.0.1:8000/authentication/login/', {
+        const response = await fetch('https://pythonapi.arifsultani291.digital/authentication/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

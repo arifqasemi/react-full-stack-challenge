@@ -5,12 +5,15 @@ function UseDelete() {
 
     async function deleteData(data) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/currencies/delete/${data.id}`, {
+        const response = await fetch(`https://pythonapi.arifsultani291.digital/currencies/delete/${data.id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Token ${data.token}`,
+            // 'Authorization': `Token ${data.token}`,
           },
+          body:JSON.stringify({
+            token:data.token
+          })
         
         });
   
